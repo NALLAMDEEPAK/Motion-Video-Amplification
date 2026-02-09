@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAV - Motion Amplification Visualization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="grid-overlay"></div>
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 4L36 12V28L20 36L4 28V12L20 4Z" stroke="url(#grad1)" stroke-width="2" fill="none"/>
+                        <path d="M20 12L28 16V24L20 28L12 24V16L20 12Z" fill="url(#grad1)"/>
+                        <defs>
+                            <linearGradient id="grad1" x1="4" y1="4" x2="36" y2="36">
+                                <stop offset="0%" stop-color="#00d4ff"/>
+                                <stop offset="100%" stop-color="#a855f7"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-text">MAV</span>
+            </div>
+            <nav class="nav">
+                <span class="nav-badge">Defense Grade</span>
+                <span class="nav-badge accent">96% Precision</span>
+            </nav>
+        </header>
+
+        <main class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="pulse"></span>
+                    Eulerian Video Magnification
+                </div>
+                <h1 class="hero-title">
+                    <span class="title-line">Motion</span>
+                    <span class="title-line gradient">Amplification</span>
+                    <span class="title-line">Visualization</span>
+                </h1>
+                <p class="hero-description">
+                    Advanced vibration detection system using Eulerian Video Magnification 
+                    and Wavelet Transforms. Detect subtle vibrations invisible to the human eye 
+                    with military-grade precision.
+                </p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                <path d="M8 21h8M12 17v4"/>
+                            </svg>
+                        </div>
+                        <span>ROI Selection</span>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                        </div>
+                        <span>FFT Analysis</span>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        <span>Real-time</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="upload-card">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2>Upload Video</h2>
+                        <p>Analyze vibrations in your video footage</p>
+                    </div>
+                    
+                    <form action="{{ url_for('analysis.timex') }}" method="post" enctype="multipart/form-data" class="upload-form">
+                        <div class="upload-area" id="uploadArea">
+                            <input type="file" id="videoInput" name="video" accept="video/*" hidden>
+                            <div class="upload-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                            <p class="upload-text">Drop your video here or <span>browse</span></p>
+                            <p class="upload-hint">Supports MP4, AVI, MOV, MKV (max 500MB)</p>
+                            <p class="file-name" id="fileName"></p>
+                        </div>
+
+                        <div class="sample-video-option">
+                            <label class="sample-checkbox">
+                                <input type="checkbox" name="use_sample" id="useSample" value="ve.mp4">
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">
+                                    <strong>Use Sample Video</strong>
+                                    <small>ve.mp4 - Demo vibration footage</small>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class="options-group">
+                            <label class="option-label">Detection Method</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="processing_option" value="roi" checked>
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">
+                                        <strong>ROI Selection</strong>
+                                        <small>Select rectangular region</small>
+                                    </span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="processing_option" value="points">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">
+                                        <strong>Point Selection</strong>
+                                        <small>Draw polygon area</small>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <span>Start Analysis</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Powered by OpenCV, NumPy & CUDA • Built for Defense Applications</p>
+        </footer>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const videoInput = document.getElementById('videoInput');
+        const fileName = document.getElementById('fileName');
+
+        uploadArea.addEventListener('click', () => videoInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                videoInput.files = e.dataTransfer.files;
+                updateFileName();
+            }
+        });
+
+        videoInput.addEventListener('change', updateFileName);
+
+        function updateFileName() {
+            if (videoInput.files.length > 0) {
+                fileName.textContent = videoInput.files[0].name;
+                uploadArea.classList.add('has-file');
+            }
+        }
+    </script>
+</body>
+</html>

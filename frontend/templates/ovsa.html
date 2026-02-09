@@ -1,0 +1,228 @@
+{% extends "sidebar.html" %}
+
+{% block title %}Video Comparison - MAV{% endblock %}
+{% block page_title %}Original vs Amplified Video{% endblock %}
+
+{% block styles %}
+<style>
+    .video-comparison {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .video-card {
+        background: rgba(15, 15, 25, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .video-card:hover {
+        border-color: rgba(0, 212, 255, 0.3);
+        box-shadow: 0 10px 40px rgba(0, 212, 255, 0.1);
+    }
+
+    .video-header {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .video-title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .video-title i {
+        color: var(--accent-cyan);
+    }
+
+    .video-badge {
+        padding: 0.35rem 0.75rem;
+        background: rgba(0, 212, 255, 0.1);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        border-radius: 100px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--accent-cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .video-badge.amplified {
+        background: rgba(168, 85, 247, 0.1);
+        border-color: rgba(168, 85, 247, 0.2);
+        color: var(--accent-purple);
+    }
+
+    .video-container {
+        position: relative;
+        aspect-ratio: 16/9;
+        background: #000;
+    }
+
+    .video-container video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .video-controls {
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .control-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--text-secondary);
+        font-family: inherit;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .control-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+    }
+
+    .info-section {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: rgba(15, 15, 25, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+    }
+
+    .info-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .info-title i {
+        color: var(--accent-cyan);
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .info-item {
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 10px;
+    }
+
+    .info-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    @media (max-width: 1024px) {
+        .video-comparison {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="video-comparison">
+    <div class="video-card">
+        <div class="video-header">
+            <div class="video-title">
+                <i class="fas fa-video"></i>
+                <span>Original Video</span>
+            </div>
+            <span class="video-badge">Source</span>
+        </div>
+        <div class="video-container">
+            <video src="{{ url_for('static', filename='assets/ve.mp4') }}" muted autoplay controls loop></video>
+        </div>
+        <div class="video-controls">
+            <a href="{{ url_for('static', filename='assets/ve.mp4') }}" download="original_video.mp4" class="control-btn">
+                <i class="fas fa-download"></i>
+                Download
+            </a>
+        </div>
+    </div>
+
+    <div class="video-card">
+        <div class="video-header">
+            <div class="video-title">
+                <i class="fas fa-magic"></i>
+                <span>Amplified Video</span>
+            </div>
+            <span class="video-badge amplified">Processed</span>
+        </div>
+        <div class="video-container">
+            <video src="{{ url_for('static', filename='assets/ve_amp10.mp4') }}" muted autoplay controls loop></video>
+        </div>
+        <div class="video-controls">
+            <a href="{{ url_for('static', filename='assets/ve_amp10.mp4') }}" download="amplified_video.mp4" class="control-btn">
+                <i class="fas fa-download"></i>
+                Download
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="info-section">
+    <div class="info-title">
+        <i class="fas fa-info-circle"></i>
+        Processing Information
+    </div>
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="info-label">Algorithm</div>
+            <div class="info-value">Eulerian Video Magnification</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Amplification Factor</div>
+            <div class="info-value">10x - 50x</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Processing</div>
+            <div class="info-value">CUDA Accelerated</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Detection Precision</div>
+            <div class="info-value">96%</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
